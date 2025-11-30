@@ -1,4 +1,4 @@
-import { addDays, startOfDay, endOfDay } from "date-fns";
+import { addDays } from "date-fns";
 import {
     type ApiResponse,
     type GenerationData,
@@ -48,8 +48,13 @@ function calculateCleanEnergyScore(
 
 export async function getEnergyMix(): Promise<DailyEnergyMix[]> {
     // Fetch 3 days of data
-    const today = startOfDay(new Date());
-    const dayAfterTomorrow = endOfDay(addDays(today, 2));
+    const now = new Date();
+    const today = new Date(
+        Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()),
+    );
+    const dayAfterTomorrow = new Date(
+        Date.UTC(now.getFullYear(), now.getMonth(), now.getDate() + 3),
+    );
 
     const data = await fetchGenerationData(today, dayAfterTomorrow);
 
