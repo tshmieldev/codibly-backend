@@ -47,16 +47,16 @@ function calculateCleanEnergyScore(
 }
 
 export async function getEnergyMix(): Promise<DailyEnergyMix[]> {
-    // Fetch 3 days of data
+    // Fetch 3 days of data (Yesterday, Today, Tomorrow)
     const now = new Date();
-    const today = new Date(
-        Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()),
+    const yesterday = new Date(
+        Date.UTC(now.getFullYear(), now.getMonth(), now.getDate() - 1, 0, 30),
     );
     const dayAfterTomorrow = new Date(
-        Date.UTC(now.getFullYear(), now.getMonth(), now.getDate() + 3),
+        Date.UTC(now.getFullYear(), now.getMonth(), now.getDate() + 2, 0, 0),
     );
 
-    const data = await fetchGenerationData(today, dayAfterTomorrow);
+    const data = await fetchGenerationData(yesterday, dayAfterTomorrow);
 
     // Group by date
     const groupedData: Record<string, GenerationData[]> = {};
